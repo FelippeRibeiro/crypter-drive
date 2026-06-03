@@ -31,14 +31,14 @@ func main() {
 	}
 	defer sqlDB.Close()
 
-	ctx, cancel := context.WithTimeout(context.Background(), 20*time.Second)
+	startupCtx, cancel := context.WithTimeout(context.Background(), 2*time.Minute)
 	defer cancel()
 
-	if err := sqlDB.PingContext(ctx); err != nil {
+	if err := sqlDB.PingContext(startupCtx); err != nil {
 		log.Fatalf("database ping error: %v", err)
 	}
 
-	if err := db.ApplyMigrations(ctx, sqlDB, "migrations"); err != nil {
+	if err := db.ApplyMigrations(startupCtx, sqlDB, "migrations"); err != nil {
 		log.Fatalf("migration error: %v", err)
 	}
 
@@ -46,7 +46,8 @@ func main() {
 	if err != nil {
 		log.Fatalf("google drive setup error: %v", err)
 	}
-	if _, err := driveSvc.EnsureRootFolder(ctx); err != nil {
+	// OAuth web flow may require user interaction time; do not use startup timeout here.
+	if _, err := driveSvc.EnsureRootFolder(context.Background()); err != nil {
 		log.Fatalf("failed to ensure google drive folder: %v", err)
 	}
 

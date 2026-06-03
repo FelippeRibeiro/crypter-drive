@@ -21,12 +21,13 @@ services:
       postgres:
         condition: service_healthy
     ports:
+      - 8080:8080
       - "3134:3134"
     env_file:
       - .env
     volumes:
       - ./credentials.json:/app/credentials.json:ro
-      - ./token.json:/app/token.json
+      # - ./token.json:/app/token.json
     networks:
       - crypter-network
 
