@@ -5,78 +5,228 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Crypter Drive</title>
     <style>
-      body {
-        font-family: Arial, sans-serif;
-        max-width: 900px;
-        margin: 24px auto;
-        padding: 0 16px;
+      :root {
+        --bg: #0b1020;
+        --bg-soft: #111830;
+        --card: #171f3d;
+        --line: #2b396d;
+        --text: #e8ecff;
+        --muted: #a9b6e8;
+        --primary: #6c7dff;
+        --primary-hover: #5a6dff;
+        --danger: #ff5d8f;
+        --danger-hover: #eb447a;
+        --ok: #50d39a;
+        --warn: #ffd166;
       }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      body {
+        margin: 0;
+        min-height: 100vh;
+        font-family: Inter, "Segoe UI", Arial, sans-serif;
+        color: var(--text);
+        background: radial-gradient(circle at top right, #1b2b6b 0%, var(--bg) 40%);
+      }
+
+      .container {
+        width: min(980px, 100%);
+        margin: 0 auto;
+        padding: 28px 16px 40px;
+      }
+
+      .hero {
+        margin-bottom: 20px;
+      }
+
+      .hero h1 {
+        margin: 0 0 6px;
+        font-size: 2rem;
+      }
+
+      .hero p {
+        margin: 0;
+        color: var(--muted);
+      }
+
       form {
         margin-bottom: 16px;
         display: flex;
         flex-wrap: wrap;
-        gap: 8px;
+        gap: 10px;
       }
-      input, button, select {
-        padding: 8px;
+
+      input,
+      button,
+      select {
+        border-radius: 10px;
+        border: 1px solid var(--line);
+        background: var(--bg-soft);
+        color: var(--text);
+        font-size: 0.95rem;
+        padding: 10px 12px;
       }
+
+      input::placeholder {
+        color: #8a98ca;
+      }
+
+      button {
+        cursor: pointer;
+        transition: 0.2s ease;
+      }
+
+      button:hover {
+        transform: translateY(-1px);
+        border-color: #8090ff;
+      }
+
       .card {
-        border: 1px solid #ddd;
-        border-radius: 8px;
-        padding: 16px;
-        margin-bottom: 16px;
+        border: 1px solid var(--line);
+        background: linear-gradient(180deg, #1b2550 0%, var(--card) 100%);
+        border-radius: 14px;
+        padding: 18px;
+        margin-bottom: 18px;
+        box-shadow: 0 16px 28px rgba(0, 0, 0, 0.2);
       }
+
+      h2 {
+        margin-top: 0;
+        font-size: 1.15rem;
+      }
+
+      .grid {
+        display: grid;
+        gap: 16px;
+        grid-template-columns: 1fr 1fr;
+      }
+
+      @media (max-width: 800px) {
+        .grid {
+          grid-template-columns: 1fr;
+        }
+      }
+
       #appSection {
         display: none;
       }
+
       ul {
-        padding-left: 20px;
+        list-style: none;
+        padding-left: 0;
+        margin: 10px 0 0;
       }
+
+      li {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 10px;
+        border: 1px solid var(--line);
+        background: #131b37;
+        border-radius: 10px;
+        padding: 10px 12px;
+        margin-bottom: 8px;
+      }
+
+      .file-meta {
+        color: var(--muted);
+        font-size: 0.92rem;
+      }
+
+      .actions {
+        display: flex;
+        gap: 8px;
+      }
+
+      .btn-primary {
+        background: var(--primary);
+        border-color: #7e8cff;
+      }
+
+      .btn-primary:hover {
+        background: var(--primary-hover);
+      }
+
+      .btn-danger {
+        background: var(--danger);
+        border-color: #ff78a3;
+      }
+
+      .btn-danger:hover {
+        background: var(--danger-hover);
+      }
+
+      .status {
+        margin-top: 8px;
+        color: var(--muted);
+      }
+
       .error {
-        color: #b00020;
+        color: #ff8fb1;
+      }
+
+      .ok {
+        color: var(--ok);
+      }
+
+      .hint {
+        font-size: 0.9rem;
+        color: var(--muted);
       }
     </style>
   </head>
   <body>
-    <h1>Crypter Drive</h1>
-    <p>Arquivos criptografados no Google Drive com mapeamento privado.</p>
+    <main class="container">
+      <header class="hero">
+        <h1>Crypter Drive</h1>
+        <p>Arquivos criptografados no Google Drive com mapeamento privado.</p>
+      </header>
 
-    <section id="authSection" class="card">
-      <h2>Entrar / Criar conta</h2>
-      <form id="authForm">
-        <input id="email" type="email" placeholder="Email" required />
-        <input id="password" type="password" placeholder="Senha (mínimo 8)" required />
-        <button id="loginBtn" type="button">Entrar</button>
-        <button id="registerBtn" type="button">Criar conta</button>
-      </form>
-      <p id="authMessage"></p>
-    </section>
-
-    <section id="appSection">
-      <div class="card">
-        <h2>Cofres</h2>
-        <form id="vaultForm">
-          <input id="vaultName" type="text" placeholder="Nome do cofre" required />
-          <button type="submit">Criar cofre</button>
+      <section id="authSection" class="card">
+        <h2>Entrar / Criar conta</h2>
+        <form id="authForm">
+          <input id="email" type="email" placeholder="Email" required />
+          <input id="password" type="password" placeholder="Senha (mínimo 8)" required />
+          <button id="loginBtn" type="button" class="btn-primary">Entrar</button>
+          <button id="registerBtn" type="button">Criar conta</button>
         </form>
-        <select id="vaultSelect"></select>
-        <button id="refreshVaultsBtn" type="button">Atualizar cofres</button>
-      </div>
+        <p id="authMessage" class="status"></p>
+      </section>
 
-      <div class="card">
-        <h2>Upload</h2>
-        <form id="uploadForm">
-          <input id="fileInput" type="file" required />
-          <button type="submit">Enviar arquivo</button>
-        </form>
-      </div>
+      <section id="appSection">
+        <div class="grid">
+          <div class="card">
+            <h2>Cofres</h2>
+            <form id="vaultForm">
+              <input id="vaultName" type="text" placeholder="Nome do cofre" required />
+              <button type="submit" class="btn-primary">Criar cofre</button>
+            </form>
+            <select id="vaultSelect"></select>
+            <p class="hint">Selecione um cofre para upload/listagem.</p>
+            <button id="refreshVaultsBtn" type="button">Atualizar cofres</button>
+          </div>
 
-      <div class="card">
-        <h2>Arquivos do cofre</h2>
-        <button id="refreshFilesBtn" type="button">Atualizar arquivos</button>
-        <ul id="fileList"></ul>
-      </div>
-    </section>
+          <div class="card">
+            <h2>Upload</h2>
+            <form id="uploadForm">
+              <input id="fileInput" type="file" required />
+              <button type="submit" class="btn-primary">Enviar arquivo</button>
+            </form>
+            <p class="hint">O arquivo é criptografado antes de ir para o Drive.</p>
+          </div>
+        </div>
+
+        <div class="card">
+          <h2>Arquivos do cofre</h2>
+          <button id="refreshFilesBtn" type="button">Atualizar arquivos</button>
+          <ul id="fileList"></ul>
+        </div>
+      </section>
+    </main>
 
     <script src="/app.js"></script>
   </body>

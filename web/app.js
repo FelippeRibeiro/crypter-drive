@@ -8,7 +8,7 @@ let token = localStorage.getItem("crypter_token") || "";
 
 function setAuthMessage(text, isError = false) {
   authMessage.textContent = text;
-  authMessage.className = isError ? "error" : "";
+  authMessage.className = `status ${isError ? "error" : "ok"}`;
 }
 
 async function request(path, options = {}) {
@@ -74,20 +74,29 @@ async function loadFiles() {
   }
   for (const file of files) {
     const li = document.createElement("li");
+    const meta = document.createElement("span");
+    meta.className = "file-meta";
+    meta.textContent = `${file.originalFileName} (${file.sizeBytes} bytes)`;
+
+    const actions = document.createElement("div");
+    actions.className = "actions";
+
     const downloadButton = document.createElement("button");
     downloadButton.type = "button";
     downloadButton.textContent = "Baixar";
+    downloadButton.className = "btn-primary";
     downloadButton.addEventListener("click", () => downloadFile(file.id, file.originalFileName));
 
     const deleteButton = document.createElement("button");
     deleteButton.type = "button";
     deleteButton.textContent = "Apagar";
-    deleteButton.style.marginLeft = "8px";
+    deleteButton.className = "btn-danger";
     deleteButton.addEventListener("click", () => deleteFile(file.id));
 
-    li.textContent = `${file.originalFileName} (${file.sizeBytes} bytes) - `;
-    li.appendChild(downloadButton);
-    li.appendChild(deleteButton);
+    actions.appendChild(downloadButton);
+    actions.appendChild(deleteButton);
+    li.appendChild(meta);
+    li.appendChild(actions);
     fileList.appendChild(li);
   }
 }
