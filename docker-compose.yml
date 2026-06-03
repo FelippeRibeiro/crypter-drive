@@ -1,0 +1,38 @@
+services:
+  postgres:
+    image: postgres:16-alpine
+    environment:
+      POSTGRES_DB: crypter
+      POSTGRES_USER: crypter
+      POSTGRES_PASSWORD: crypter
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U crypter -d crypter"]
+      interval: 5s
+      timeout: 5s
+      retries: 12
+    networks:
+      - crypter-network
+
+  app:
+    build: .
+    depends_on:
+      postgres:
+        condition: service_healthy
+    ports:
+      - "3134:3134"
+    env_file:
+      - .env
+    volumes:
+      - ./credentials.json:/app/credentials.json:ro
+      - ./token.json:/app/token.json
+    networks:
+      - crypter-network
+
+volumes:
+  postgres_data:
+
+networks:
+  crypter-network:
+    driver: bridge

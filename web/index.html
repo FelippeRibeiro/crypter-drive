@@ -1,0 +1,83 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Crypter Drive</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        max-width: 900px;
+        margin: 24px auto;
+        padding: 0 16px;
+      }
+      form {
+        margin-bottom: 16px;
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
+      }
+      input, button, select {
+        padding: 8px;
+      }
+      .card {
+        border: 1px solid #ddd;
+        border-radius: 8px;
+        padding: 16px;
+        margin-bottom: 16px;
+      }
+      #appSection {
+        display: none;
+      }
+      ul {
+        padding-left: 20px;
+      }
+      .error {
+        color: #b00020;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>Crypter Drive</h1>
+    <p>Arquivos criptografados no Google Drive com mapeamento privado.</p>
+
+    <section id="authSection" class="card">
+      <h2>Entrar / Criar conta</h2>
+      <form id="authForm">
+        <input id="email" type="email" placeholder="Email" required />
+        <input id="password" type="password" placeholder="Senha (mínimo 8)" required />
+        <button id="loginBtn" type="button">Entrar</button>
+        <button id="registerBtn" type="button">Criar conta</button>
+      </form>
+      <p id="authMessage"></p>
+    </section>
+
+    <section id="appSection">
+      <div class="card">
+        <h2>Cofres</h2>
+        <form id="vaultForm">
+          <input id="vaultName" type="text" placeholder="Nome do cofre" required />
+          <button type="submit">Criar cofre</button>
+        </form>
+        <select id="vaultSelect"></select>
+        <button id="refreshVaultsBtn" type="button">Atualizar cofres</button>
+      </div>
+
+      <div class="card">
+        <h2>Upload</h2>
+        <form id="uploadForm">
+          <input id="fileInput" type="file" required />
+          <button type="submit">Enviar arquivo</button>
+        </form>
+      </div>
+
+      <div class="card">
+        <h2>Arquivos do cofre</h2>
+        <button id="refreshFilesBtn" type="button">Atualizar arquivos</button>
+        <ul id="fileList"></ul>
+      </div>
+    </section>
+
+    <script src="/app.js"></script>
+  </body>
+</html>

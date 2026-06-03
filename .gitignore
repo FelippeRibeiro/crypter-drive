@@ -1,0 +1,7 @@
+/.idea/
+/tmp/
+/bin/
+/.env
+/token.json
+/credentials.json
+
